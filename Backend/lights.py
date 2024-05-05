@@ -1,0 +1,1 @@
+def set_light_state(light_id: int , state: bool):
