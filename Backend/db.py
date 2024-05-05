@@ -22,13 +22,22 @@ def create_tables():
 
 def get_lights():
     conn = get_db_connection()
-    lights = conn.execute('SELECT is_on FROM lights;').fetchall()
+    rows = conn.execute('SELECT id ,is_on FROM lights;').fetchall()
     conn.close()
-    print(lights)
+    lights = {row[0]: row[1] for row in rows}
     return lights
 
-def update_light_state(is_on):
+def update_light_state(light_id, is_on):
     conn = get_db_connection()
-    conn.execute('INSERT INTO lights (is_on) VALUES (?) ON CONFLICT(id) DO UPDATE SET is_on = ? WHERE id = 1;', (is_on, is_on))
+    conn.execute('UPDATE lights SET is_on = ? WHERE id = ?', (1 if is_on else 0, light_id))
     conn.commit()
     conn.close()
+
+
+
+# print(get_lights())
+# update_light_state(1,1)
+# print(get_lights())
+# update_light_state(3,1)
+# print(get_lights())
+

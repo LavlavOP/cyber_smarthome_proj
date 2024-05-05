@@ -18,21 +18,10 @@ def startup_event():
     db.create_tables()
 
 @app.get("/lights")
-def get_light():
-    light = db.get_light()
-    if light is None:
-        raise HTTPException(status_code=404, detail="Light not found")
-    return {"is_on": light["is_on"]}
+def get_lights():
+    lights = db.get_lights()
+    return lights
 
-@app.post("/lights/on")
-def turn_on_light():
-    light_state.is_on = True
-    return light_state
-
-@app.post("/lights/off")
-def turn_off_light():
-    light_state.is_on = False
-    return light_state
 
 @app.post("/lights/toggle")
 def turn_off_light():
