@@ -1,0 +1,4 @@
+Backend/test.db
+Backend/__pycache__/
+
+.idea/
