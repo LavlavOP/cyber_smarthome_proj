@@ -34,3 +34,8 @@ def get_lights():
 
 def update_light_state(light_id: int, is_on: bool):
     query(f"UPDATE lights SET is_on = {int(is_on)} WHERE id = {light_id}")
+
+def deleteTale():
+    query(f"DROP TABLE IF EXISTS lights")
+
+#deleteTale()

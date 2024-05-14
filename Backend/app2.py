@@ -13,8 +13,6 @@ templates = Jinja2Templates(directory="/Users/lavirubinstein/Desktop/lavi Cyber 
 # Assuming you have static files correctly placed
 app.mount("/static", StaticFiles(directory="/Users/lavirubinstein/Desktop/lavi Cyber Prog/frontend/static"), name="static")
 
-db.deleteTale()
-
 @app.get("/")
 async def get_home(request: Request):
     return templates.TemplateResponse("smarthome.html", {"request": request})
@@ -63,21 +61,11 @@ def startup_event():
 
 @app.get("/lights")
 def get_lights():
-    return db.get_lights()
-
-@app.get("/lights/{light_id}/toggle")
-def toggle_light(light_id: int):
-    #send to RPI - irl
-    current_lights = db.get_lights()
-    if light_id in current_lights:
-        new_state = not current_lights[light_id]
-        db.update_light_state(light_id, new_state)
-        return {light_id: new_state}
-    else:
-        raise HTTPException(status_code=404, detail="Light not found")
+    lights = db.get_lights()
+    return lights
 
 @app.get("/lights/{light_id}/on")
-def turn_on_light(light_id: int):
+def turn_on_light(light_id :int):
     db.update_light_state(light_id, True)
     return {light_id: True}
 
@@ -85,6 +73,12 @@ def turn_on_light(light_id: int):
 def turn_off_light(light_id: int):
     db.update_light_state(light_id, False)
     return {light_id: False}
+
+@app.get("/lights/{light_id}/toggle")
+def turn_off_light(light_id: int):
+    lights = db.get_lights()
+    db.update_light_state(light_id, not lights[light_id])
+    return {light_id: not lights[light_id]}
 
 
 if __name__ == "__main__":

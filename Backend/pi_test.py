@@ -11,7 +11,7 @@ import random
 #import encription
 #import RPi.GPIO as GPIO
 import time
-import data_move_firebase
+#import data_move_firebase
 
 # class motor():
 # #motor setup pin
@@ -158,86 +158,86 @@ import data_move_firebase
 
 # endregion
 
-# region -----  CONSTANTS  -----
-# For every client to been thread
-SERVER_PORT = 1234
-SERVER_ABORT = "Aborting the server..."  # Message if server error
+# # region -----  CONSTANTS  -----
+# # For every client to been thread
+# SERVER_PORT = 1234
+# SERVER_ABORT = "Aborting the server..."  # Message if server error
 
 
-# endregion
+# # endregion
 
 
-# region -------------------------------  Python CLASS  --------------------
-class SessionForClient():
-    def __init__(self):
-        pass
+# # region -------------------------------  Python CLASS  --------------------
+# class SessionForClient():
+#     def __init__(self):
+#         pass
 
-    def get_messag(self):
-        data = data_move_firebase.receive_messages("pi")
-        return data[-1]
+#     # def get_messag(self):
+#     #     data = data_move_firebase.receive_messages("pi")
+#     #     return data[-1]
 
-    def run(self):
-        count = 0
-        data = ""
-        while True:
-            while data != SessionForClient.get_messag(self):
-                data = SessionForClient.get_messag(self)
+#     def run(self):
+#         count = 0
+#         data = ""
+#         # while True:
+#         #     while data != SessionForClient.get_messag(self):
+#         #         data = SessionForClient.get_messag(self)
 
-                if count == 0:
-                    count +=1
-                    #ralay.ralay_off1()
-                    print("light 1 off from pi")
+#                 if count == 0:
+#                     count +=1
+#                     #ralay.ralay_off1()
+#                     print("light 1 off from pi")
 
-                    #ralay.ralay_off2()
-                    print("light 2 off from pi")
+#                     #ralay.ralay_off2()
+#                     print("light 2 off from pi")
 
-                    #ralay.ralay_off3()
-                    print("light 3 off from pi")
+#                     #ralay.ralay_off3()
+#                     print("light 3 off from pi")
 
-                    #ralay.ralay_off4()
-                    print("light 4 off from pi")
-                    break
+#                     #ralay.ralay_off4()
+#                     print("light 4 off from pi")
+#                     break
                 
                 
-                if data == "Light 1 turned on":
-                    #ralay.ralay_on1()
-                    print("light 1 on from pi")
+#                 if data == "Light 1 turned on":
+#                     #ralay.ralay_on1()
+#                     print("light 1 on from pi")
                     
-                elif data == "Light 2 turned on":
-                    #ralay.ralay_on2()
-                    print("light 2 on from pi")
+#                 elif data == "Light 2 turned on":
+#                     #ralay.ralay_on2()
+#                     print("light 2 on from pi")
                     
-                elif data == "Light 3 turned on":
-                    #ralay.ralay_on3()
-                    print("light 3 on from pi")
+#                 elif data == "Light 3 turned on":
+#                     #ralay.ralay_on3()
+#                     print("light 3 on from pi")
                     
-                elif data == "Light 4 turned on": #garage open
-                    #motor(4096 , False).move_motor()
-                    print("garage open from pi")
+#                 elif data == "Light 4 turned on": #garage open
+#                     #motor(4096 , False).move_motor()
+#                     print("garage open from pi")
                     
 
-                elif data == "Light 1 turned off":
-                    #ralay.ralay_off1()
-                    print("light 1 off from pi")
+#                 elif data == "Light 1 turned off":
+#                     #ralay.ralay_off1()
+#                     print("light 1 off from pi")
                     
-                elif data == "Light 2 turned off":
-                    #ralay.ralay_off2()
-                    print("light 2 off from pi")
+#                 elif data == "Light 2 turned off":
+#                     #ralay.ralay_off2()
+#                     print("light 2 off from pi")
                     
-                elif data == "Light 3 turned off":
-                    #ralay.ralay_off3()
-                    print("light 3 off from pi")
+#                 elif data == "Light 3 turned off":
+#                     #ralay.ralay_off3()
+#                     print("light 3 off from pi")
                     
-                elif data == "Light 4 turned off": #garage close
-                    #motor(4096 , True).move_motor()
-                    print("garage close from pi")
+#                 elif data == "Light 4 turned off": #garage close
+#                     #motor(4096 , True).move_motor()
+#                     print("garage close from pi")
         
 
-# region ------------------------------------   MAIN   ---------------------------------------------
+# # region ------------------------------------   MAIN   ---------------------------------------------
 
-SessionForClient().run()
+# SessionForClient().run()
 
-# -------------------------------------------------------------------------------------------------
+# # -------------------------------------------------------------------------------------------------
 
 
-# endregion
+# # endregion
