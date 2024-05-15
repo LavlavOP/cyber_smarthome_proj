@@ -4,16 +4,19 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 import db
-
+import testPi
 app = FastAPI()
 
 # Correct the directory for templates
-templates = Jinja2Templates(directory="/Users/lavirubinstein/Desktop/lavi Cyber Prog/frontend/static/templates")
+templates = Jinja2Templates(directory="/home/lavi/Desktop/lavi cyber test/frontend/static/templates")
 
 # Assuming you have static files correctly placed
-app.mount("/static", StaticFiles(directory="/Users/lavirubinstein/Desktop/lavi Cyber Prog/frontend/static"), name="static")
+app.mount("/static", StaticFiles(directory="/home/lavi/Desktop/lavi cyber test/frontend/static"), name="static")
 
 db.deleteTale()
+
+relay_control = testPi.Relay()
+relay_control.setup()
 
 @app.get("/")
 async def get_home(request: Request):
@@ -68,10 +71,17 @@ def get_lights():
 @app.get("/lights/{light_id}/toggle")
 def toggle_light(light_id: int):
     #send to RPI - irl
+    global relay_control
     current_lights = db.get_lights()
     if light_id in current_lights:
         new_state = not current_lights[light_id]
         db.update_light_state(light_id, new_state)
+
+
+        print(new_state , light_id)
+        if new_state: relay_control.relay_on(light_id)
+        if not new_state: relay_control.relay_off(light_id)
+
         return {light_id: new_state}
     else:
         raise HTTPException(status_code=404, detail="Light not found")
