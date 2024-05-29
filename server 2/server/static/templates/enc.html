@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSA Encryption</title>
+</head>
+<body>
+    <script>
+        async function encryptMessage(message, publicKeyPem) {
+            // Convert PEM public key to ArrayBuffer
+            const pemHeader = "-----BEGIN PUBLIC KEY-----";
+            const pemFooter = "-----END PUBLIC KEY-----";
+            const pemContents = publicKeyPem.substring(pemHeader.length, publicKeyPem.length - pemFooter.length);
+            const binaryDerString = window.atob(pemContents);
+            const binaryDer = str2ab(binaryDerString);
+
+            // Import the public key
+            const publicKey = await window.crypto.subtle.importKey(
+                "spki",
+                binaryDer,
+                {
+                    name: "RSA-OAEP",
+                    hash: "SHA-256"
+                },
+                true,
+                ["encrypt"]
+            );
+
+            // Encode the message as an ArrayBuffer
+            const encoder = new TextEncoder();
+            const encodedMessage = encoder.encode(message);
+
+            // Encrypt the message
+            const encrypted = await window.crypto.subtle.encrypt(
+                {
+                    name: "RSA-OAEP"
+                },
+                publicKey,
+                encodedMessage
+            );
+
+            // Convert the encrypted message to a base64 string
+            return window.btoa(ab2str(encrypted));
+        }
+
+        // Helper function to convert a string to an ArrayBuffer
+        function str2ab(str) {
+            const buf = new ArrayBuffer(str.length);
+            const bufView = new Uint8Array(buf);
+            for (let i = 0, strLen = str.length; i < strLen; i++) {
+                bufView[i] = str.charCodeAt(i);
+            }
+            return buf;
+        }
+
+        // Helper function to convert an ArrayBuffer to a string
+        function ab2str(buf) {
+            return String.fromCharCode.apply(null, new Uint8Array(buf));
+        }
+
+        // Example usage
+        (async () => {
+            const publicKeyPem = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz6TeOwHhT1CwtQu1RUVG
+NlvM8y6Aen6IuT6KO9nqJ8DhOmzTu8FouSAB+xyvAo3Qd0DkHXAL7WlqPfB/3J1P
+mIbJ8D6P0uQbk0mBzgl1I3nGGy1PUx0t1OvWBFtc9FgF6JFr/C0BPv/qcvsLKkx7
+CSjzB1A9uAmgREvE3vZKtxbRL5T2kULf0lI8nlwZRWyGiupKCRasFwl9AEmMMLIq
+8/GRFiVq5pEGy4V9KlNGdnudSHpFNZG7c1jo6gyqx8Db8s7xxf3ejX0niK3J/Mjb
+Qy4q7A1E/a9mR8zBoW+YrP1z0zMBTA3b8Hxv9s5CXF2mQzKzzU5z1pNf8/UgUKsy
+zwIDAQAB
+-----END PUBLIC KEY-----`;
+
+            const message = "hi its lavi";
+            const encryptedMessage = await encryptMessage(message, publicKeyPem);
+            console.log("Encrypted Message:", encryptedMessage);
+        })();
+    </script>
+</body>
+</html>

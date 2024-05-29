@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Sign Up</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/smarthome.js"></script>
+    <script src="/static/js/md5.js"></script>
+</head>
+<body>
+    <div class="container" id="loginSection">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="button" id="loginButton">Login</button>
+            <button type="button" id="showSignUpBtn">Sign Up</button>
+        </form>
+    </div>
+
+    <div class="container" id="signupSection" style="display: none;">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="newUsername">Username:</label>
+                <input type="text" id="newUsername" name="newUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <button type="button" id="signupButton">Sign Up</button>
+            <button type="button" id="showLoginBtn">Back to Login</button>
+        </form>
+    </div>
+
+    <script>
+        const serverUrl = "";
+        document.getElementById('showSignUpBtn').addEventListener('click', function() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'block';
+        });
+
+        document.getElementById('showLoginBtn').addEventListener('click', function() {
+            document.getElementById('signupSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        });
+
+        // Add AJAX submission handlers for login and signup as needed
+        // Login AJAX request
+        document.getElementById('loginButton').addEventListener('click', async function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+
+            if (username === ''){
+                alert("enter username details")
+            }
+            else{
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', md5(password));
+
+                await fetch(`/users/login`, {  // Adjusted to use relative path
+                    method: 'POST',
+                    body: new URLSearchParams(formData),
+                    credentials: 'include'  // Ensure cookies are sent with the request
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Login failed');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    window.location.href = "/site/smarthome"; // Redirect on success
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message);
+                });
+            }
+        });
+
+        // Sign-up AJAX request
+        document.getElementById('signupButton').addEventListener('click', async function() {
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+
+            await fetch(`/users/signup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `username=${encodeURIComponent(newUsername)}&password=${encodeURIComponent(md5(newPassword))}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Signup successful! Please log in.');
+                    document.getElementById('signupSection').style.display = 'none';
+                    document.getElementById('loginSection').style.display = 'block';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

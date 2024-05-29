@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Dashboard</title>
+    <!-- <link rel="stylesheet" href="/Users/lavirubinstein/Desktop/lavi Cyber Prog/frontend/static/css/smarthomecss.css"> Ensure you link your CSS for styling -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/smarthomecss.css">
+    <script src="/static/js/smarthome.js"></script>
+</head>
+<body>
+<div class="dashboard">
+  <header>
+    <div class="f fe">
+      <div class="icon icon-w"></div>
+      <div class="heading">
+        <h5 class="date">1 Feb 2019</h5>
+        <h2 class="title">Cloudy</h2>
+      </div>
+    </div>
+
+    
+    <div class="weather f">
+      <div>
+        <strong>26°<sup>C</sup></strong>
+        <p>Indoor Temp.</p>
+      </div>
+      <div>
+        <strong>48.2%</strong>
+        <p>Outdoor Humidity</p>
+      </div>
+      <div>
+        <strong>52.99</strong>
+        <p>Indoor Temp.</p>
+      </div>
+    </div>
+  </header>
+
+
+  <section>
+    <!-- Category -->
+    <div class="category">
+      <ul>
+        <li><a href="#!" class="active" id=livinbut onclick="livingRoomShowHide()" >Living Room</a></li>
+        <li><a href="#!" id=kitchenbut onclick="kitchenShowHide()" >Kitchen</a></li>
+        <li><a href="#!">Dining</a></li>
+        <li><a href="#!">Weather</a></li>
+      </ul>
+    </div>
+    <!-- Appliances -->
+    <div class="appliances" id="livingRoomId">
+      
+      <!-- Living Room Appliances -->
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="a">
+        <label for="a">
+          <i class="l"></i>
+          <strong>Lamp</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+      
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="b">
+        <label for="b">
+          <i class="r"></i>
+          <strong>Router</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+      
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="c">
+        <label for="c">
+          <i class="a"></i>
+          <strong>Air Conditioner</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+      
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="d">
+        <label for="d">
+          <i class="f"></i>
+          <strong>Fridge</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+    </div>
+
+    <div class="appliances" id="kitchenId" style="display:none;">
+      <!-- Kitchen Appliances -->
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="oven">
+        <label for="oven">
+          <i class="o"></i>
+          <strong>Oven</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="microwave">
+        <label for="microwave">
+            <i class="fa-solid fa-house"></i> <!-- Replace fa-appliance with your chosen icon's class -->
+            <strong>Microwave</strong>
+            <span data-o="on" data-c="off"></span>
+            <small></small>
+        </label>
+      </div>
+      <div class="appliance">
+        <input type="checkbox" name="appliance" id="dishwasher">
+        <label for="dishwasher">
+          <i class="d"></i>
+          <strong>Dishwasher</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+    </div>
+    <div class="appliances">
+      <!-- Dining Room Appliances -->
+      <div class="appliance" style="display:none;">
+        <input type="checkbox" name="appliance" id="diningLight">
+        <label for="diningLight">
+          <i class="l"></i>
+          <strong>Light</strong>
+          <span data-o="on" data-c="off"></span>
+          <small></small>
+        </label>
+      </div>
+    </div> 
+    <div class="appliances">
+      <!-- Shared Devices -->
+      <div class="m-player">
+        <h2>Shared Devices</h2>
+        <div class="player">
+          <div class="disc"></div>
+          <div class="artist">
+            <p>Rosetta Stoned</p>
+            <small>Tool</small>
+          </div>
+          <div class="controls">
+            <input type="checkbox" name="appliance" id="p">
+            <label for="p">
+              <div class="control"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+      <div>
+          <button id="logout" type="submit" onclick="logout()">Logout</button>
+      </div>
+
+  </section>
+</div>
+</body>
+</html>
